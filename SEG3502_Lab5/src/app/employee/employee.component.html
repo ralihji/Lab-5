@@ -1,58 +1,93 @@
-<a class="btn btn-primary" [routerLink]="['/employees']">Employee List</a>
-<div class="container">
-  <h1>Employee Entry Form</h1>
-  @if (errorMessage) {
-    <div class="alert alert-danger">{{ errorMessage }}</div>
-  }
-  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" formControlName="name" required>
-      <div [hidden]="name.pristine || name.valid"
-           class="alert alert-danger">
-        Employee Name is required.
-      </div>
+<section class="page-head">
+  <div>
+    <p class="eyebrow">New employee</p>
+    <h1>Employee Entry Form</h1>
+    <p class="lead">Each submitted employee is saved in the Cloud Firestore collection <code>employees</code>.</p>
+  </div>
+  <a class="btn btn-secondary" [routerLink]="['/employees']">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+    Employee List
+  </a>
+</section>
+
+@if (errorMessage) {
+  <div class="alert" role="alert">
+    <span class="alert-icon" aria-hidden="true">!</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+}
+
+<form class="card" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+  <div class="card-head">
+    <h2>Employee information</h2>
+    <p>Fields marked with <span class="req">*</span> are required.</p>
+  </div>
+
+  <div class="grid">
+    <div class="field wide">
+      <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="name" formControlName="name" placeholder="e.g. Marie Tremblay" autocomplete="off" required>
+      @if (name.invalid && (name.dirty || name.touched)) {
+        <p class="error">Employee Name is required.</p>
+      }
     </div>
-    <div class="mb-3">
-      <label for="dob">Date of Birth:</label>
-      <input type="date" class="form-control" id="dob" formControlName="dateOfBirth" required >
-      <div [hidden]="dateOfBirth.pristine || dateOfBirth.valid"
-           class="alert alert-danger">
-        Date of birth is required.
-      </div>
+
+    <div class="field">
+      <label for="dob">Date of Birth <span class="req" aria-hidden="true">*</span></label>
+      <input type="date" id="dob" formControlName="dateOfBirth" required>
+      @if (dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)) {
+        <p class="error">Date of birth is required.</p>
+      }
     </div>
-    <div class="mb-3">
-      <label for="city">City:</label>
-      <input type="text" class="form-control" id="city" required formControlName="city">
-      <div [hidden]="city.pristine || city.valid"
-           class="alert alert-danger">
-        City of employment is required.
-      </div>
+
+    <div class="field">
+      <label for="city">City <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="city" formControlName="city" placeholder="e.g. Ottawa" required>
+      @if (city.invalid && (city.dirty || city.touched)) {
+        <p class="error">City of employment is required.</p>
+      }
     </div>
-    <div class="mb-3">
-      <label for="salary">Salary:</label>
-      <input type="number" class="form-control" id="salary" required step="0.01" formControlName="salary">
-      <div [hidden]="salary.pristine || salary.valid"
-           class="alert alert-danger">
-        Salary is required.
+
+    <div class="field">
+      <label for="salary">Salary <span class="req" aria-hidden="true">*</span></label>
+      <div class="money">
+        <span aria-hidden="true">$</span>
+        <input type="number" id="salary" formControlName="salary" step="0.01" required>
       </div>
+      @if (salary.invalid && (salary.dirty || salary.touched)) {
+        <p class="error">Salary is required.</p>
+      }
     </div>
-    <div class="mb-3">
-      <label for="gender">Gender:</label>
-      <input type="text" class="form-control" id="gender" formControlName="gender" placeholder="M, F or X">
-      <div [hidden]="gender.pristine || gender.valid"
-           class="alert alert-danger">
-        Gender should be M, F or X.
-      </div>
+
+    <div class="field">
+      <label for="gender">Gender <span class="opt">optional</span></label>
+      <input type="text" id="gender" formControlName="gender" placeholder="M, F or X" autocapitalize="characters">
+      @if (gender.invalid && (gender.dirty || gender.touched)) {
+        <p class="error">Gender should be M, F or X.</p>
+      }
     </div>
-    <div class="mb-3">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" formControlName="email">
-      <div [hidden]="email.pristine || email.valid"
-           class="alert alert-danger">
-        Wrong email format.
-      </div>
+
+    <div class="field wide">
+      <label for="email">Email <span class="opt">optional</span></label>
+      <input type="email" id="email" formControlName="email" placeholder="name@example.com">
+      @if (email.invalid && (email.dirty || email.touched)) {
+        <p class="error">Wrong email format.</p>
+      }
     </div>
-    <button type="submit" class="btn btn-success" [disabled]="employeeForm.invalid">Submit</button>
-  </form>
-</div>
+  </div>
+
+  <div class="actions">
+    <p class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+      @if (employeeForm.invalid) {
+        Fill in the required fields to enable Submit.
+      } @else {
+        Ready: the employee will be saved to Firestore.
+      }
+    </p>
+    <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid">
+      Submit
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</form>

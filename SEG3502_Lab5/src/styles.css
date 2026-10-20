@@ -1,1 +1,189 @@
-/* You can add global styles to this file, and also import other style files */
+/* Styles globaux : police, couleurs et éléments communs aux deux pages. */
+
+/* Police Barlow, installée avec npm install (paquet @fontsource/barlow) */
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+@import '@fontsource/barlow/700.css';
+
+/* Couleurs déclarées une seule fois, réutilisées par tous les composants */
+:root {
+  --encre: #262d38;
+  --texte: #1f2630;
+  --texte-doux: #5d6878;
+  --fond: #eef1f5;
+  --carte: #ffffff;
+  --ligne: #dde3ea;
+  --bleu: #2f6db3;
+  --bleu-fonce: #234f86;
+  --bleu-pale: #e6eef8;
+  --ambre: #d9922a;
+  --danger: #c0392b;
+  --danger-pale: #fdf0ee;
+  --succes: #2c8a57;
+  --rayon: 12px;
+  --ombre: 0 1px 2px rgba(31, 38, 48, .06), 0 10px 28px rgba(31, 38, 48, .07);
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texte);
+  background: var(--fond);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 { margin: 0; line-height: 1.2; color: var(--encre); }
+p { margin: 0; }
+a { color: var(--bleu); }
+a:hover { color: var(--bleu-fonce); }
+
+code {
+  font-family: var(--mono);
+  font-size: .85em;
+  padding: .05em .35em;
+  border-radius: 5px;
+  background: var(--bleu-pale);
+  color: var(--bleu-fonce);
+}
+
+svg { flex: none; }
+
+/* Contour jaune bien visible pour la navigation au clavier */
+:focus-visible { outline: 3px solid #f2c14e; outline-offset: 2px; }
+
+/* Boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 44px;
+  padding: .55rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.btn svg { width: 18px; height: 18px; }
+.btn-primary { background: var(--bleu); color: #fff; }
+.btn-primary:hover { background: var(--bleu-fonce); color: #fff; }
+.btn-primary:disabled { background: #b6c2d0; cursor: not-allowed; }
+.btn-secondary { background: var(--bleu-pale); border-color: #c8d8ec; color: var(--bleu-fonce); }
+.btn-secondary:hover { background: #d7e4f4; border-color: #aec7e6; }
+
+/* Carte blanche commune */
+.card {
+  background: var(--carte);
+  border: 1px solid var(--ligne);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+.card-head { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid var(--ligne); }
+.card-head h2 { font-size: 1.15rem; font-weight: 600; }
+.card-head p { margin-top: .15rem; font-size: .9rem; color: var(--texte-doux); }
+
+/* Titre de page + bouton d'action */
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.4rem;
+}
+.page-head h1 { font-size: clamp(1.6rem, 1.25rem + 1.3vw, 2.15rem); font-weight: 700; }
+.page-head .lead { max-width: 52ch; margin-top: .3rem; color: var(--texte-doux); }
+
+.eyebrow {
+  margin-bottom: .2rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+/* Message d'erreur général (enregistrement refusé par Firestore) */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  margin-bottom: 1rem;
+  padding: .85rem 1rem;
+  border: 1px solid #f0c3bd;
+  border-radius: 10px;
+  background: var(--danger-pale);
+  color: #8e2a20;
+}
+
+/* Pastille ronde « ! » (alerte et erreurs des champs) */
+.alert-icon, .error::before {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.alert-icon { margin-top: .15rem; }
+
+/* Petite pastille de compteur (ex. « 3 employees ») */
+.count {
+  padding: .2rem .7rem;
+  border-radius: 999px;
+  background: var(--bleu-pale);
+  color: var(--bleu-fonce);
+  font-size: .78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* États « liste vide » et « chargement » */
+.state {
+  display: grid;
+  justify-items: center;
+  gap: .6rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--texte-doux);
+}
+.state h2 { font-size: 1.2rem; }
+.state svg { width: 44px; height: 44px; color: #7f97b5; }
+.state .btn { margin-top: .4rem; }
+.empty { border: 2px dashed #c6d0dc; border-radius: var(--rayon); }
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid #d5dde7;
+  border-top-color: var(--bleu);
+  border-radius: 50%;
+  animation: tourne .8s linear infinite;
+}
+@keyframes tourne { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 2.4s; }
+  * { transition: none !important; }
+}
+
+@media (max-width: 560px) {
+  .page-head { align-items: stretch; flex-direction: column; }
+  .page-head .btn { width: 100%; }
+}

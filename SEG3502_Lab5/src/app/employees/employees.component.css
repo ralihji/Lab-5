@@ -1,0 +1,67 @@
+/* Tableau des employés ; chaque ligne devient une fiche sur téléphone */
+.row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+.scroll { overflow-x: auto; border-radius: 0 0 var(--rayon) var(--rayon); }
+table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+th {
+  padding: .75rem 1rem;
+  background: var(--encre);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+td { padding: .8rem 1rem; border-bottom: 1px solid var(--ligne); }
+tbody tr:nth-child(even) { background: #f6f8fa; }
+tbody tr:hover { background: #edf3fa; }
+tbody tr:last-child td { border-bottom: 0; }
+
+.idx { width: 2.5rem; color: var(--ambre); font-weight: 700; }
+.name { color: var(--encre); font-weight: 600; }
+.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tag {
+  display: inline-block;
+  min-width: 1.8rem;
+  padding: .1rem .5rem;
+  border-radius: 6px;
+  background: #edf0f4;
+  font-size: .82rem;
+  font-weight: 600;
+  text-align: center;
+}
+.none { color: #8a94a3; font-style: italic; }
+
+@media (max-width: 640px) {
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  tbody { padding: 1rem; }
+  tbody tr, tbody tr:nth-child(even) {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--ligne);
+    border-radius: 10px;
+    background: #fff;
+  }
+  tbody tr:last-child { margin-bottom: 0; }
+  td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .55rem .9rem;
+    border-bottom: 1px solid #edf0f3;
+    text-align: right;
+  }
+  td::before {
+    content: attr(data-label);
+    color: var(--texte-doux);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  td.idx { width: auto; background: var(--encre); color: var(--ambre); }
+  td.idx::before { color: #c3cbd6; }
+}

@@ -1,0 +1,73 @@
+/* Structure de la page : bandeau du haut, contenu, pied de page */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar { background: var(--encre); color: #fff; }
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.1rem 1.25rem;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #6f9fd8;
+  color: var(--encre);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, .3);
+}
+.logo svg { width: 24px; height: 24px; }
+
+.topbar .eyebrow { margin: 0; color: #a7b1bf; }
+.title { font-size: 1.4rem; font-weight: 700; line-height: 1.15; }
+
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-left: auto;
+  padding: .35rem .8rem;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .07);
+  color: #dfe5ec;
+  font-size: .85rem;
+  font-weight: 500;
+}
+.store svg { width: 16px; height: 16px; color: #f2b450; }
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.foot {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--ligne);
+  background: #e5e9ef;
+  color: var(--texte-doux);
+  font-size: .8rem;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .bar { padding: .9rem 1rem; }
+  .title { font-size: 1.2rem; }
+  /* Sur téléphone, seule l'icône reste visible ; le texte reste lu par les lecteurs d'écran */
+  .store span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .store { padding: .5rem; }
+  main { padding: 1.4rem 1rem 2.5rem; }
+}

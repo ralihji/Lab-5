@@ -1,25 +1,67 @@
-<a class="btn btn-primary" [routerLink]="['/employee']">Add Employee</a>
-<div class="container">
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Date of birth</th>
-      <th scope="col">City</th>
-      <th scope="col">Salary</th>
-      <th scope="col">Gender</th>
-      <th scope="col">Email</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let emp of employees.$ | async">
-      <td>{{emp.name}}</td>
-      <td>{{emp.dateOfBirth | date :'d/MMM/y'}}</td>
-      <td>{{emp.city}}</td>
-      <td>{{emp.salary}}</td>
-      <td>{{emp.gender}}</td>
-      <td>{{emp.email}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Cloud Firestore · employees</p>
+    <h1>Employee List</h1>
+    <p class="lead">Every employee saved in Firestore, read from the <code>employees</code> collection and sorted by name.</p>
+  </div>
+  <a class="btn btn-primary" [routerLink]="['/employee']">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    Add Employee
+  </a>
+</section>
+
+@if (employees$ | async; as employees) {
+  @if (employees.length > 0) {
+    <div class="card">
+      <div class="card-head row">
+        <h2>Stored employees</h2>
+        <span class="count">{{ employees.length }} {{ employees.length === 1 ? 'employee' : 'employees' }}</span>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date of birth</th>
+            <th scope="col">City</th>
+            <th scope="col" class="num">Salary</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Email</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (emp of employees; track $index; let i = $index) {
+            <tr>
+              <td class="idx" data-label="Employee">{{ i + 1 }}</td>
+              <td class="name" data-label="Name">{{ emp.name }}</td>
+              <!-- 'UTC' : la date choisie (aaaa-mm-jj) est enregistrée à minuit UTC, on l'affiche donc sans décalage horaire -->
+              <td data-label="Date of birth">{{ emp.dateOfBirth | date :'d/MMM/y' : 'UTC' }}</td>
+              <td data-label="City">{{ emp.city }}</td>
+              <td class="num" data-label="Salary">{{ emp.salary | currency : 'CAD' : 'symbol-narrow' }}</td>
+              <td data-label="Gender">
+                @if (emp.gender) { <span class="tag">{{ emp.gender }}</span> } @else { <span class="none">Not provided</span> }
+              </td>
+              <td data-label="Email">
+                @if (emp.email) { <a href="mailto:{{ emp.email }}">{{ emp.email }}</a> } @else { <span class="none">Not provided</span> }
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="state empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      <h2>No employees saved yet</h2>
+      <p>The <code>employees</code> collection is empty. Add a first employee with the form.</p>
+      <a class="btn btn-primary" [routerLink]="['/employee']">Add Employee</a>
+    </div>
+  }
+} @else {
+  <div class="state card" role="status">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading employees from Cloud Firestore…</p>
+  </div>
+}

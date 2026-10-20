@@ -1,0 +1,94 @@
+/* Formulaire : deux colonnes, une seule sur téléphone */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1.4rem;
+  padding: 1.4rem 1.5rem 1.5rem;
+}
+.wide { grid-column: 1 / -1; }
+
+label {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: .35rem;
+  font-size: .92rem;
+  font-weight: 600;
+}
+.req { color: var(--danger); }
+.opt {
+  padding: .05rem .45rem;
+  border-radius: 999px;
+  background: #edf0f4;
+  color: var(--texte-doux);
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: .55rem .8rem;
+  border: 1px solid #cdd5df;
+  border-radius: 9px;
+  background: #fbfcfd;
+  color: var(--texte);
+  font: inherit;
+}
+input::placeholder { color: #99a3b0; }
+input:focus {
+  outline: none;
+  border-color: var(--bleu);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(47, 109, 179, .18);
+}
+
+/* La couleur du champ suit l'état donné par Angular */
+input.ng-invalid.ng-touched, input.ng-invalid.ng-dirty { border-color: var(--danger); background: #fffafa; }
+input.ng-valid.ng-dirty:not(:placeholder-shown) { border-color: var(--succes); }
+
+.money { position: relative; }
+.money span {
+  position: absolute;
+  top: 50%;
+  left: .85rem;
+  transform: translateY(-50%);
+  color: var(--texte-doux);
+}
+.money input { padding-left: 1.75rem; }
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .4rem;
+  color: var(--danger);
+  font-size: .86rem;
+}
+.error::before { content: '!'; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--ligne);
+  border-radius: 0 0 var(--rayon) var(--rayon);
+  background: #f7f9fb;
+}
+.note {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--texte-doux);
+  font-size: .88rem;
+}
+.note svg { width: 18px; height: 18px; color: var(--ambre); }
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; padding: 1.1rem; }
+  .actions { flex-direction: column-reverse; align-items: stretch; padding: 1rem 1.1rem; }
+  .actions .btn { width: 100%; }
+}
